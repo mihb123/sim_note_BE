@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Client\Request;
 
 class UserController extends Controller
 {
@@ -43,5 +44,25 @@ class UserController extends Controller
         }
 
         return response()->json(['message' => 'Registration failed'], 400);
+    }
+
+    public function verifyEmail(\Illuminate\Http\Request $request, $id, $hash)
+    {
+        $result = $this->userService->verifyEmail($id, $hash);
+        if ($result['verified']) {
+            return redirect(config('app.frontend_url') . '/auth/verified-success?verified=1');
+        } else {
+            return redirect(config('app.frontend_url') . '/auth/verified-success?verified=0&message=' . urlencode($result['message']));
+        }
+    }
+
+    public function sendVerification(Request $request)
+    {
+        $user = $request->user();
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email already verified'], 400);
+        }
+        $user->sendEmailVerificationNotification();
+        return response()->json(['message' => 'Verification email sent']);
     }
 }
