@@ -76,4 +76,17 @@ class UserService
         event(new Verified($user));
         return ['verified' => true, 'message' => 'Email verified successfully'];
     }
+
+    public function getUser(int $userId)
+    {
+        $user = $this->userRepository->find($userId);
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'email_verified_at' => $user->email_verified_at,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+        ];
+    }
 }

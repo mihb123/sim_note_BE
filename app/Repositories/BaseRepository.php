@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-class BaseRepositoriy implements BaseRepositoryInterface 
+class BaseRepository implements BaseRepositoryInterface 
 {
     protected $model;
 
