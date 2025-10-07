@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -46,7 +46,7 @@ class UserController extends Controller
         return response()->json(['message' => 'Registration failed'], 400);
     }
 
-    public function verifyEmail(\Illuminate\Http\Request $request, $id, $hash)
+    public function verifyEmail(Request $request, $id, $hash)
     {
         $result = $this->userService->verifyEmail($id, $hash);
         if ($result['verified']) {
@@ -64,5 +64,16 @@ class UserController extends Controller
         }
         $user->sendEmailVerificationNotification();
         return response()->json(['message' => 'Verification email sent']);
+    }
+
+    public function user(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        $res = $this->userService->getUser($user->id);
+
+        return response()->json($res);
     }
 }

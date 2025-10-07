@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NoteController;
 
 Route::controller(UserController::class)->group(function () {
     Route::post('/register', 'register')->middleware('throttle:5,1')->name('register');
@@ -17,4 +18,9 @@ Route::controller(UserController::class)->group(function () {
             ->middleware(['auth:sanctum', 'throttle:6,1'])
             ->name('send');
     });    
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/user', [UserController::class, 'user'])->name('user');
+    Route::get('/notes', [NoteController::class, 'getNotes'])->name('get-notes');
 });
