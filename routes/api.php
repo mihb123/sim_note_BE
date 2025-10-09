@@ -23,4 +23,5 @@ Route::controller(UserController::class)->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/user', [UserController::class, 'user'])->name('user');
     Route::get('/notes', [NoteController::class, 'getNotes'])->name('get-notes');
+    Route::post('/notes-update', [NoteController::class, 'updateNote'])->name('update-note');
 });

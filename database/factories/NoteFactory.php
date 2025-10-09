@@ -22,7 +22,7 @@ class NoteFactory extends Factory
 
         return [
             'title' => fake()->sentence(),
-            'content' => fake()->paragraph(10),
+            'content' => fake()->paragraph(50),
             'user_id' => User::inRandomOrder()->first()->id,
             'created_at' => $createdAt,
             'updated_at' => fake()->dateTimeBetween($createdAt, 'now'),
