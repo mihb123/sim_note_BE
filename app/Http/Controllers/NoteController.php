@@ -20,7 +20,7 @@ class NoteController extends Controller
         if(!$notes) {
             return response()->json(['message' => 'No notes found'], 404);
         }
-        
+
         return response()->json($notes);
     }
 
@@ -29,10 +29,33 @@ class NoteController extends Controller
         $data = $request->validated();      
         $res = $this->noteService->updateNote($data);
         
-        if($res['success']){
+        if($res){
             return response()->json($res);
         }
 
         return response()->json($res, 400);
+    }
+
+    public function createNote(Request $request)
+    {
+        $data = $request->only(['title', 'content']);
+        $user_id = $request->user()->id;
+        $data['user_id'] = $user_id;
+        $res = $this->noteService->createNote($data);
+        if($res){
+            return response()->json($res);
+        }
+
+        return response()->json($res, 400);
+    }
+
+    public function deleteNote($noteId)
+    {
+        $res = $this->noteService->deleteNote($noteId);
+        if($res){
+            return response()->json(['success' => true]);
+            }
+            
+        return response()->json(['success' => false], 400);
     }
 }

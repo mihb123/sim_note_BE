@@ -24,4 +24,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/user', [UserController::class, 'user'])->name('user');
     Route::get('/notes', [NoteController::class, 'getNotes'])->name('get-notes');
     Route::post('/notes-update', [NoteController::class, 'updateNote'])->name('update-note');
+    Route::post('/notes-create', [NoteController::class, 'createNote'])->name('create-note');
+    Route::delete('/notes-delete/{noteId}', [NoteController::class, 'deleteNote'])->name('delete-note');
 });
