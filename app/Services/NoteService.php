@@ -15,4 +15,33 @@ class NoteService
         return $this->noteRepository->getNotesByUserId($userId);
     }
 
+    public function updateNote(array $noteData)
+    {
+        $noteId = $noteData['id'] ?? null;
+        if ($noteId) {
+            $data = [
+                'title' => $noteData['title'] ?? null,
+                'content' => $noteData['content'] ?? null,
+                'user_id' => $noteData['user_id'] ?? null
+            ];
+            return $this->noteRepository->updateNote($noteId, $data);
+        }
+        return [];
+    }
+
+    public function createNote(array $noteData)
+    {
+        $data = [
+            'title' => $noteData['title'] ?? "Untitled",
+            'content' => $noteData['content'] ?? "",
+            'user_id' => $noteData['user_id'] ?? null
+        ];
+
+        return $this->noteRepository->create($data);        
+    }
+
+    public function deleteNote(int $noteId)
+    {
+        return $this->noteRepository->delete($noteId);
+    }
 }
