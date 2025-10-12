@@ -22,7 +22,8 @@ class NoteService
             $data = [
                 'title' => $noteData['title'] ?? null,
                 'content' => $noteData['content'] ?? null,
-                'user_id' => $noteData['user_id'] ?? null
+                'user_id' => $noteData['user_id'] ?? null,
+                'is_save' => $noteData['is_save'] ?? false,
             ];
             return $this->noteRepository->updateNote($noteId, $data);
         }
