@@ -25,6 +25,7 @@ class UpdateNoteRequest extends FormRequest
             'id' => 'required|integer|exists:notes,id',
             'title' => 'nullable|string|max:255',
             'content' => 'nullable|string',
+            'is_save' => 'nullable|boolean',
             'user_id' => 'required|integer|exists:users,id',
             'updated_at' => 'nullable|date',
             'created_at' => 'nullable|date',            
