@@ -16,7 +16,8 @@ class NoteController extends Controller
     public function getNotes(Request $request)
     {
         $user = $request->user();
-        $notes = $this->noteService->getNotesByUserId($user->id);
+        $size = $request->query('per_page', 30);
+        $notes = $this->noteService->getNotesByUserId($user->id, $size);
         if(!$notes) {
             return response()->json(['message' => 'No notes found'], 404);
         }

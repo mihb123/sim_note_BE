@@ -13,9 +13,9 @@ class NoteRepository extends BaseRepository implements NoteRepositoryInterface
         parent::__construct($model);
     }
 
-    public function getNotesByUserId(int $userId)
+    public function getNotesByUserId(int $userId, int $size)
     {
-        return $this->model->where('user_id', $userId)->orderBy('updated_at', 'desc')->get();
+        return $this->model->where('user_id', $userId)->orderBy('updated_at', 'desc')->paginate($size);
     }
 
     public function updateNote(int $noteId, array $noteData)

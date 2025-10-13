@@ -6,6 +6,6 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface NoteRepositoryInterface extends BaseRepositoryInterface
 {
-    public function getNotesByUserId(int $userId);
+    public function getNotesByUserId(int $userId, int $size);
     public function updateNote(int $noteId, array $noteData);
 }

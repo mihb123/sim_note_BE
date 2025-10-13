@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Note\NoteRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 
 class NoteService
 {
@@ -10,9 +11,10 @@ class NoteService
     {
     }
 
-    public function getNotesByUserId(int $userId)
+    public function getNotesByUserId(int $userId, $size = 30)
     {
-        return $this->noteRepository->getNotesByUserId($userId);
+        $size = (int) $size;
+        return $this->noteRepository->getNotesByUserId($userId, $size);
     }
 
     public function updateNote(array $noteData)
@@ -21,9 +23,10 @@ class NoteService
         if ($noteId) {
             $data = [
                 'title' => $noteData['title'] ?? null,
-                'content' => $noteData['content'] ?? null,
+                'content' => $noteData['content'] ?? '',
                 'user_id' => $noteData['user_id'] ?? null,
                 'is_save' => $noteData['is_save'] ?? false,
+                'updated_at' => $noteData['updated_at'] ?? null
             ];
             return $this->noteRepository->updateNote($noteId, $data);
         }

@@ -28,7 +28,6 @@ class UpdateNoteRequest extends FormRequest
             'is_save' => 'nullable|boolean',
             'user_id' => 'required|integer|exists:users,id',
             'updated_at' => 'nullable|date',
-            'created_at' => 'nullable|date',            
         ];
     }
 }
