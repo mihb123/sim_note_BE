@@ -41,11 +41,12 @@ cp .env.example .env
 php artisan key:generate
 
 # For SQLite (default)
-touch database/database.sqlite
+# touch database/database.sqlite
 #   or configure MySQL in .env
 
 # 4. Run migrations
 php artisan migrate
+php artisan db:seed DatabaseSeeder
 
 # 5. Start local server
 php artisan serve
