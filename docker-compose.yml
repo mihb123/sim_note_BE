@@ -6,12 +6,7 @@ services:
       - .:/var/www/html
     networks:
       - simnote
-    command: >
-      bash -c "
-          php artisan key:generate
-          php artisan migrate:fresh --seed
-          php-fpm
-      "
+
   web:
     image: nginx:alpine
     container_name: simnote_nginx

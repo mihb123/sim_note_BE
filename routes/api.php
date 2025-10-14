@@ -27,3 +27,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/notes-create', [NoteController::class, 'createNote'])->name('create-note');
     Route::delete('/notes-delete/{noteId}', [NoteController::class, 'deleteNote'])->name('delete-note');
 });
+Route::get('/alive', function () {
+	return response()->json([
+	    'status' => 'ok',
+	    'env' => config('app.env'),
+	    'app_name' => config('app.name'),
+	], 200);
+});
