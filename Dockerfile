@@ -25,5 +25,3 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 EXPOSE 9000
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-# Run PHP-FPM
-CMD ["php-fpm"]
