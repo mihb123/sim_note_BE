@@ -26,7 +26,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/notes-update', [NoteController::class, 'updateNote'])->name('update-note');
     Route::post('/notes-create', [NoteController::class, 'createNote'])->name('create-note');
     Route::delete('/notes-delete/{noteId}', [NoteController::class, 'deleteNote'])->name('delete-note');
+    Route::get('/notes/{id}', [NoteController::class, 'getNoteById'])->name('get-note-by-id');
 });
+
 Route::get('/alive', function () {
 	return response()->json([
 	    'status' => 'ok',

@@ -62,4 +62,14 @@ class NoteController extends Controller
             
         return response()->json(['success' => false], 400);
     }
+
+    public function getNoteById($id)
+    {
+        $res = $this->noteService->getNoteById($id);
+        if($res){
+            return response()->json($res);
+        }
+
+        return response()->json($res, 404);
+    }
 }

@@ -48,4 +48,9 @@ class NoteService
     {
         return $this->noteRepository->delete($noteId);
     }
+
+    public function getNoteById($id)
+    {
+        return $this->noteRepository->find($id);
+    }
 }
