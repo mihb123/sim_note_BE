@@ -11,7 +11,7 @@ class NoteService
     {
     }
 
-    public function getNotesByUserId(int $userId, $size = 0, $is_save = 0, $search = '')
+    public function getNotesByUserId(int $userId, $size = 30, $is_save = 0, $search = '')
     {
         $size = (int) $size;
         return $this->noteRepository->getNotesByUserId($userId, $size, $is_save, $search);
