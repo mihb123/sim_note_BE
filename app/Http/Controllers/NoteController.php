@@ -65,8 +65,37 @@ class NoteController extends Controller
 
     public function getNoteById($id)
     {
-        $res = $this->noteService->getNoteById($id);
+        $res = $this->noteService->getNoteById((int) $id);
         if($res){
+            return response()->json($res);
+        }
+
+        return response()->json($res, 404);
+    }
+
+    public function shareNote($id, Request $request){
+        $data = $request->validate(['email' => 'required|email|exists:users,email']);
+        $res = $this->noteService->shareNote($id, $data['email']);
+        if($res['status'] === 'success') {
+            return response()->json($res);
+        }
+
+        return response()->json($res, 404);
+    }
+
+    public function unshareNote($shareId){
+        $res = $this->noteService->unshareNote($shareId);
+        if ($res['status'] === 'success') {
+            return response()->json($res);
+        }
+
+        return response()->json($res, 404);
+    }
+
+    public function getSharedNotes(Request $request){
+        $user = $request->user();
+        $res = $this->noteService->getSharedNotes($user->id);
+        if ($res) {
             return response()->json($res);
         }
 

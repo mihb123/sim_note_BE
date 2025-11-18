@@ -13,6 +13,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('App\Repositories\BaseRepositoryInterface', 'App\Repositories\BaseRepository');
         $this->app->bind('App\Repositories\Note\NoteRepositoryInterface', 'App\Repositories\Note\NoteRepository');
+        $this->app->bind('App\Repositories\NoteShare\NoteShareInterface', 'App\Repositories\NoteShare\NoteShareRepository');
     }
 
     /**

@@ -27,6 +27,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/notes-create', [NoteController::class, 'createNote'])->name('create-note');
     Route::delete('/notes-delete/{noteId}', [NoteController::class, 'deleteNote'])->name('delete-note');
     Route::get('/notes/{id}', [NoteController::class, 'getNoteById'])->name('get-note-by-id');
+    Route::post('/notes-share/{id}', [NoteController::class, 'shareNote'])->name('share-note');
+    Route::delete('/notes-unshare/{shareId}', [NoteController::class, 'unshareNote'])->name('unshare-note');
+    Route::get('/notes-shared', [NoteController::class, 'getSharedNotes'])->name('shared-notes');
 });
 
 Route::get('/alive', function () {

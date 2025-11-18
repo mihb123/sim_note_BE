@@ -8,4 +8,5 @@ interface NoteRepositoryInterface extends BaseRepositoryInterface
 {
     public function getNotesByUserId(int $userId, int $size, $is_save, $search);
     public function updateNote(int $noteId, array $noteData);
+    public function getNoteById($noteId);
 }

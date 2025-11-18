@@ -16,12 +16,13 @@ class NoteRepository extends BaseRepository implements NoteRepositoryInterface
     public function getNotesByUserId(int $userId, int $size, $is_save, $search)
     {
         $query = $this->model
-            ->where('user_id', $userId)
+            ->where('user_id', $userId)->with('user', fn($q) => $q->select('id', 'name'))
             ->when($is_save, fn($q) => $q->where('is_save', $is_save))
             ->when($search, fn($q) => $q->where(function ($sub) use ($search){
                 $sub->where('title', 'like', "%$search%")
                     ->orWhere('content', 'like', "%$search%");
             }))
+            ->with('noteShares.user', fn($q) => $q->select('id', 'name', 'email'))
             ->orderBy('updated_at', 'desc');
 
         return $size ? $query->paginate($size) : $query->get();
@@ -36,5 +37,13 @@ class NoteRepository extends BaseRepository implements NoteRepositoryInterface
         $note->update($noteData);
 
         return $note;    
+    }
+
+    public function getNoteById($noteId)
+    {
+        return $this->model->where('id', $noteId)
+            ->with('noteShares.user', fn($q) => $q->select('id', 'name', 'email'))
+            ->with('user', fn($q) => $q->select('id', 'name'))
+            ->first();
     }
 }
