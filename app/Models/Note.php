@@ -24,4 +24,14 @@ class Note extends Model
     {
         return $this->hasMany(NoteShare::class, 'note_id');
     }
+
+    public function noteVersion()
+    {
+        return $this->hasMany(NoteVersion::class,'note_id');
+    }
+
+    public function latestVersion()
+    {
+        return $this->hasOne(NoteVersion::class)->latestOfMany();
+    }
 }

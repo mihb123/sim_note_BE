@@ -101,4 +101,23 @@ class NoteController extends Controller
 
         return response()->json($res, 404);
     }
+
+    public function changeDoc($id, Request $request){
+        $data = $request->all();
+        $res = $this->noteService->changeDoc($id, $data);
+        if($res){
+            return response()->json($res);
+        }
+
+        return response()->json($res, 404);
+    }
+
+    public function getLatestVersion($id, $version){
+        $res = $this->noteService->getLatestVersion($id, $version);
+        if ($res) {
+            return response()->json($res);
+        }
+
+        return response()->json($res, 404);
+    }
 }
