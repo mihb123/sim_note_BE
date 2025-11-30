@@ -1,27 +1,25 @@
-# Use PHP 8.2 image with FPM
-FROM php:8.2-fpm
+FROM php:8.4-fpm
 
-# Install necessary extensions for Laravel
 RUN apt-get update && apt-get install -y \
-    git unzip libpng-dev libonig-dev libxml2-dev zip curl \
+    git unzip libpng-dev libonig-dev libxml2-dev zip curl supervisor \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Copy the entire source code into the container
+# SỬA: Copy thẳng vào file config mặc định của Linux (không dùng conf.d)
+COPY supervisord.conf /etc/supervisor/supervisord.conf
+RUN mkdir -p /var/log/supervisor
+
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 COPY . .
 
-# Install dependencies
 RUN composer install --no-dev --optimize-autoloader
-
-# Set permissions for storage & bootstrap/cache
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Expose PHP-FPM port
-EXPOSE 9000
+EXPOSE 9000 8080
 
 ENTRYPOINT ["docker-entrypoint.sh"]

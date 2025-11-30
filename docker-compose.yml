@@ -7,6 +7,18 @@ services:
       - .:/var/www/html
     networks:
       - simnote
+    environment:
+      DB_HOST: simnote_db
+      DB_PORT: 3306
+      DB_DATABASE: sim_note
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
+      QUEUE_CONNECTION: database
+      CACHE_STORE: database
+      
+      REVERB_HOST: "0.0.0.0"
+      REVERB_PORT: 8080
 
   web:
     image: nginx:alpine
