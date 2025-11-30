@@ -6,10 +6,12 @@ use App\Repositories\Note\NoteRepositoryInterface;
 use App\Repositories\NoteShare\NoteShareInterface;
 use App\Repositories\UserRepository\UserRepository;
 use Illuminate\Support\Facades\Log;
+use App\Repositories\NoteVersion\NoteVersionInterface;
+use App\Events\UpdateNoteEvent;
 
 class NoteService
 {
-    public function __construct(protected NoteRepositoryInterface $noteRepository, protected NoteShareInterface $noteShareRepository, protected UserRepository $userRepository)
+    public function __construct(protected NoteRepositoryInterface $noteRepository, protected NoteVersionInterface $noteVersionRepository, protected NoteShareInterface $noteShareRepository, protected UserRepository $userRepository)
     {
     }
 
@@ -86,5 +88,22 @@ class NoteService
     public function getSharedNotes($userId)
     {
         return $this->noteShareRepository->getSharedNotes($userId);
+    }
+
+    public function changeDoc($noteId, $data){
+        broadcast(new UpdateNoteEvent($noteId, $data['updates']))->toOthers();
+        $res = $this->noteVersionRepository->create([
+            'note_id'=> $noteId,
+            'version' => $data['version'],
+            'clientID' => $data['clientID'],
+            'changes' => $data['updates'],
+        ]);
+        if($res) return ['status'=> 'success'];
+        
+        return ['status'=> 'error'];
+    }
+
+    public function getLatestVersion($id, $version){
+        return $this->noteVersionRepository->getLatestVersion($id, $version);
     }
 }
